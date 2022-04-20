@@ -1,0 +1,67 @@
+blinking LED with IR receiver - project 5
+
+#include <boarddefs.h>
+#include <IRremote.h>
+#include <IRremoteInt.h>
+#include <ir_Lego_PF_BitStreamEncoder.h>
+
+int RECV_PIN=8;
+int RED_LED=10;
+IRrecv irrecv(RECV_PIN);
+decode_results results;
+
+void setup()
+{
+pinMode(RECV_PIN, INPUT);
+pinMode(RED_LED, OUTPUT);
+irrecv.enableIRIn();
+Serial.begin(9600);
+}
+
+void loop()
+{
+if(irrecv.decode(&results))
+{
+IR();
+Output();
+irrecv.resume();
+}
+}
+
+void IR()
+{
+switch(results.value)
+{
+case 0xFF6897:
+Serial.println(" 0 ");
+break;
+case 0xFF30CF:
+Serial.println(" 1 ");
+break;
+default:
+Serial.print(" Unknown Button ");
+Serial.println(results.value, HEX);
+}
+delay(500);
+}
+
+void Output()
+{
+long RED_LED_OFF = 0xFF6897;
+long RED_LED_ON = 0xFF30CF;
+if(results.value== RED_LED_OFF)
+{
+Serial.println ("Red led off");
+digitalwrite(10, LOW);
+}
+else if (results.value== RED_LED_ON)
+{
+Serial.println("Red led on");
+digitalWrite(10, HIGH);
+}
+else
+{
+Serial.print("Still an unknown button");
+Serial.println(results.value, HEX);
+}
+}
