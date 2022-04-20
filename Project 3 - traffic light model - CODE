@@ -1,0 +1,21 @@
+traffic light model using 3 LED - project 3
+
+void setup() 
+{
+pinMode(8, OUTPUT);
+pinMode(8, OUTPUT);
+pinMode(8, OUTPUT);
+}
+
+void loop()
+{
+digitalWrite(8, HIGH);
+delay(7000);
+digitalWrite(10, HIGH);
+digitalWrite(8, LOW);
+delay(3000);
+digitalWrite(13, HIGH);
+digitalWrite(10, LOW);
+delay(7000);
+digitalWrite(13, LOW);
+}
