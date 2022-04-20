@@ -1,0 +1,127 @@
+turn on 4 LEDs using IR remote controll - project 6
+
+#include<IRremote.h>
+int RECV_Pin=8;
+int GREEN_LED=9;
+int RED_LED=10;
+int RED_LED2=11;
+int BLUE_LED=13;
+IRrecv irrecv(RECV_Pin);
+decode_results results;
+
+void setup() 
+{
+pinMode(RECV_Pin, INPUT);
+pinMode(GREEN_LED, OUTPUT);
+pinMode(RED_LED, OUTPUT);
+pinMode(RED_LED2, OUTPUT);
+pinMode(BLUE_LED, OUTPUT);
+irrecv.enableIRIn();
+Serial.begin(9600);
+}
+
+void loop()
+{
+if(irrecv.decode(&results))
+{
+IR();
+Output();
+irrecv.resume();
+}
+}
+
+void IR()
+{
+switch(results.value)
+{
+case 0xFF6897:
+Serial.println(" 0 ");
+case 0xFF30CF:
+Serial.println(" 1 ");
+case 0xFF18E7:
+Serial.println(" 2 ");
+break;
+case 0xFF7185:
+Serial.println(" 3 ");
+break;
+case 0xFF10EF:
+Serial.println(" 4 ");
+break;
+default:
+Serial.print(" Unknown Button ");
+Serial.println(results.value, HEX);
+}
+delay(500);
+}
+void Output()
+{
+long GREEN_LED_OFF = 0xFF6897;
+long GREEN_LED_ON = 0xFF30CF;
+if(results.value == GREEN_LED_OFF)
+{
+Serial.println("green led off");
+digitalWrite(GREEN_LED, LOW);
+}
+else if (results.value == GREEN_LED_ON)
+{
+Serial.println("green led on");
+digitalWrite(GREEN_LED, HIGH);
+}
+else
+{
+Serial.print("Still an unknown button");
+Serial.println(results.value, HEX);
+}
+long RED_LED_OFF = 0xFF6897;
+long RED_LED_ON = 0xFF18EF;
+if(results.value == RED_LED_OFF)
+{
+Serial.println("red led off");
+digitalWrite(RED_LED, LOW);
+}
+else if (results.value == RED_LED_ON)
+{
+Serial.println("red led on");
+digitalWrite(RED_LED, HIGH);
+}
+else
+{
+Serial.print("Still an unknown button");
+Serial.println(results.value, HEX);
+}
+long RED_LED2_OFF = 0xFF6897;
+long RED_LED2_ON = 0xFF7A85;
+if(results.value == RED_LED2_OFF)
+{
+Serial.println("red led 2 off");
+digitalWrite(RED_LED2, LOW);
+}
+else if (results.value == RED_LED2_ON)
+{
+Serial.println("red led 2 on");
+digitalWrite(RED_LED2, HIGH);
+}
+else
+{
+Serial.print("Still an unknown button");
+Serial.println(results.value, HEX);
+}
+long BLUE_LED_OFF = 0xFF6897;
+long BLUE_LED_ON = 0xFF10EF;
+if(results.value == BLUE_LED_OFF)
+{
+Serial.println("blue led off");
+digitalWrite(BLUE_LED, LOW);
+}
+else if (results.value == BLUE_LED_ON)
+{
+Serial.println("blue led on");
+digitalWrite(BLUE_LED, HIGH);
+}
+else
+{
+Serial.print("Still an unknown button");
+Serial.println(results.value, HEX);
+}
+}
+
