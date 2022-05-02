@@ -1,0 +1,26 @@
+tilt sensor - project 9
+
+int tilt=13;
+int led=8;
+int data=0;
+
+void setup()
+{
+pinMode(tilt, INPUT);
+pinMode(led, OUTPUT);
+Serial.begin(9600);
+}
+
+void loop()
+{
+data=digitalRead(tilt);
+Serial.println(data);
+if (data==1)
+{
+digitalWrite(led,1);
+}
+else 
+{
+digitalWrite(led,0);
+}
+}
